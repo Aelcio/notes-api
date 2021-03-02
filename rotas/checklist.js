@@ -1,20 +1,28 @@
-const express = require('express');
-const router = express.Router();
+//const express = require('express');
+//const router = express.Router();
 
-router.get('/', function(req, res){
-    res.send('Consultando Checklist');
+const {Router} = require('express');
+const router = Router();
+const controller = require('../controller/controlechecklist');
+
+router.get('/', (req, res) => {
+    const checklist = controller.getChecklist();
+    res.send(checklist);
 });
 
-router.post('/', function(req, res){
-    res.send('Incluindo Checklist');
+router.post('/', (req, res) => {
+    const checklist = controller.postChecklist();
+    res.send(checklist);
 });
 
-router.put('/', function(req, res){
-    res.send('Atualizando Checklist');
+router.put('/', (req, res) => {
+    const checklist = controller.putChecklist();
+    res.send(checklist);
 });
 
-router.delete('/', function(req, res){
-    res.send('Deletando Checklist');
+router.delete('/', (req, res) => {
+    const checklist = controller.deleteChecklist();
+    res.send(checklist);
 });
 
 module.exports = router;

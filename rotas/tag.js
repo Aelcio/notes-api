@@ -1,20 +1,28 @@
-const express = require('express');
-const router = express.Router();
+//const express = require('express');
+//const router = express.Router();
 
-router.get('/', function(req, res){
-    res.send('Consultando Tag');
+const { Router } = require('express');
+const router = Router();
+const controller = require('../controller/controletag');
+
+router.get('/', (req, res) => {
+    const tag = controller.getTag();
+    res.send(tag);
 });
 
-router.post('/', function(req, res){
-    res.send('Incluindo Tag');
+router.post('/', (req, res) => {
+    const tag = controller.postTag();
+    res.send(tag);
 });
 
-router.put('/', function(req, res){
-    res.send('Atualizando Tag');
+router.put('/', (req, res) => {
+    const tag = controller.putTag();
+    res.send(tag);
 });
 
-router.delete('/', function(req, res){
-    res.send('Deletando Tag');
+router.delete('/', (req, res) => {
+    const tag = controller.deleteTag();
+    res.send(tag);
 });
 
 module.exports = router;

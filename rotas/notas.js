@@ -1,20 +1,32 @@
-const express = require('express');
-const router = express.Router();
+//const express = require('express');
+//const router = express.Router();
 
-router.get('/', function(req, res){
-    res.send('Consultando Notas');
+const { Router } = require('express');
+const router = Router();
+const controller = require('../controller/controlenotas');
+
+router.get('/', (req, res) => {
+    const notas = controller.getNotas();
+
+    res.send(notas);
 });
 
-router.post('/', function(req, res){
-    res.send('Incluindo Notas');
+router.post('/', (req, res) => {
+    const notas = controller.postNotas();
+    
+    res.send(notas);
 });
 
-router.put('/', function(req, res){
-    res.send('Atualizando Notas');
+router.put('/', (req, res) => {
+    const notas = controller.putNotas();
+    
+    res.send(notas);
 });
 
-router.delete('/', function(req, res){
-    res.send('Deletando Notas');
+router.delete('/', (req, res) => {
+    const notas = controller.deleteNotas();
+    
+    res.send(notas);
 });
 
 module.exports = router;

@@ -1,23 +1,29 @@
-const express = require('express');
-const router = express.Router();
+//const express = require('express');
+//const router = express.Router();
 
-router.get('/', function(req, res){
-    res.json([{
-        nome: 'Aelcio',
-        email: 'aelciosrmacedo@gmail.com'
-    }]);
+const { Router } = require('express');
+const router = Router();
+const controller = require('../controller/controleusuario');
+
+router.get('/', (req, res) => {
+    const usuarios = controller.getUsuarios();
+
+    res.send(usuarios);
 });
 
-router.post('/', function(req, res){
-    res.send('Incluindo usuário');
+router.post('/', (req, res) => {
+    const usuarios = controller.postUsuarios();
+    res.send(usuarios);
 });
 
-router.put('/', function(req, res){
-    res.send('Atualizando usuário');
+router.put('/', (req, res) => {
+    const usuarios = controller.putUsuarios();
+    res.send(usuarios);
 });
 
-router.delete('/', function(req, res){
-    res.send('Deletando usuário');
+router.delete('/', (req, res) => {
+    const usuarios = controller.deleteUsuarios();
+    res.send(usuarios);
 });
 
 module.exports = router;
