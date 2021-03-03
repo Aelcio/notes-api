@@ -4,6 +4,7 @@
 const { Router } = require('express');
 const router = Router();
 const controller = require('../controller/controleusuario');
+const conectabd = require('../models');
 
 router.get('/', (req, res) => {
     const usuarios = controller.getUsuarios();
