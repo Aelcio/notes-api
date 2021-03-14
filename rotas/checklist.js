@@ -1,28 +1,53 @@
-//const express = require('express');
-//const router = express.Router();
-
 const {Router} = require('express');
 const router = Router();
 const controller = require('../controller/controlechecklist');
 
-router.get('/', (req, res) => {
-    const checklist = controller.getChecklist();
+router.get('/:id?', async (req, res) => {
+    const { id } = req.params;
+
+    const checklist = await controller.list(id);
+
     res.send(checklist);
 });
 
-router.post('/', (req, res) => {
-    const checklist = controller.postChecklist();
-    res.send(checklist);
+router.post('/', async (req, res) => {
+    try{
+        const { body } = req;
+
+        const checklist =  await controller.save(body);
+  
+        res.send(checklist);    
+       
+    } catch (error) {
+        res.status(500).send({ error });
+    }
+
 });
 
-router.put('/', (req, res) => {
-    const checklist = controller.putChecklist();
-    res.send(checklist);
+router.put('/:id', async (req, res) => {
+    try {
+        const { body } = req;
+        const { id } = req.params;
+
+        await controller.edit(id, body);
+
+        res.send(body);
+    } catch (error) {
+        res.status(500).send({ error });
+    }
 });
 
-router.delete('/', (req, res) => {
-    const checklist = controller.deleteChecklist();
-    res.send(checklist);
+router.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        await controller.remove(id);
+
+        res.send(`CheckList ${ id } excluída com sucesso! `)
+
+    } catch ( error ) {
+        res.status(500).send({ error });
+    }
 });
 
 module.exports = router;

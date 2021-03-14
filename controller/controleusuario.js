@@ -1,29 +1,31 @@
+const { Usuario } = require('../models');
 const controller = {};
 
-controller.getUsuarios = () => {
-    return [
-        {
-            nome: 'Aelcio',
-        },
-        {
-            nome: 'Marta',
-        },
-        {
-            nome: 'Davi',
-        },
-    ];
+controller.list = async (id = null) => {
+    let result = [];
+
+    if(id) {
+        result = await Usuario.findByPk(id);
+    } else {
+        result = await Usuario.findAll();
+    }
+    return result;
 };
 
-controller.postUsuarios = () =>{
-    return 'Testando Incluindo Usuário';
-}
+controller.save = async (usuario) => {
+    return await Usuario.create(usuario);
+};
 
-controller.putUsuarios = () =>{
-    return 'Testando Atualizando Usuário';
-}
 
-controller.deleteUsuarios = () =>{
-    return 'Testando Deletando Usuário';
+controller.edit = async (id, usuario) =>{
+   return await Usuario.update(usuario, {
+       where: { id },
+   });
+};
+
+
+controller.remove = async (id) =>{
+    return await Usuario.destroy( { where: { id } });
 }
 
 module.exports = controller;

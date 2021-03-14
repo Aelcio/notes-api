@@ -1,24 +1,33 @@
+const { Nota } = require('../models');
 const controller = {};
 
-controller.getNotas = () => {
-    return [
-        {
-           Teste: 'Test Get Notas',
-        }        
-    ];
+controller.list = async (id = null) => {
+    let result = [];
+
+    if(id) {
+        result = await Nota.findByPk(id);
+        
+    } else {
+        result = await Nota.findAll();
+    }
+    return result;
 };
 
-controller.postNotas = () => {
-    return 'Teste Incluindo Notas';
+controller.save = async (nota) => {
+    return await Nota.create(nota);
 };
 
-controller.putNotas = () => {
-    return 'Teste Atualizando Notas';
+
+controller.edit = async (id, nota) =>{
+   return await Nota.update(nota, {
+       where: { id },
+   });
 };
 
-controller.deleteNotas = () => {
-    return 'Teste Deletando Notas';
-};
+
+controller.remove = async (id) =>{
+    return await Nota.destroy( { where: { id } });
+}
 
 
 module.exports = controller;

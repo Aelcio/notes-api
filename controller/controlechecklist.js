@@ -1,19 +1,31 @@
+const { CheckList } = require('../models');
 const controller = {};
 
-controller.getChecklist = () => {
-    return 'Teste Controle Consultando CheckList';
+controller.list = async (id = null) => {
+    let result = [];
+
+    if(id) {
+        result = await CheckList.findByPk(id);
+    } else {
+        result = await CheckList.findAll();
+    }
+    return result;
 };
 
-controller.postChecklist = () => {
-    return 'Teste Controle incluindo CheckList';
+controller.save = async (checklist) => {
+    return await CheckList.create(checklist);
 };
 
-controller.putChecklist = () => {
-    return 'Teste Controle Atualizando CheckList';
+
+controller.edit = async (id, checklist) =>{
+   return await CheckList.update(checklist, {
+       where: { id },
+   });
 };
 
-controller.deleteChecklist = () => {
-    return 'Teste Controle Deletando CheckList';
-};
+
+controller.remove = async (id) =>{
+    return await CheckList.destroy( { where: { id } });
+}
 
 module.exports = controller;
