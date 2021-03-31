@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             criadoEm: {
                 type: DataTypes.DATE,
-                allowNull: false
+                allowNull: true,
             },
             atualizadoEm: {
                 type: DataTypes.DATE,

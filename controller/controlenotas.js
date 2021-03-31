@@ -1,4 +1,4 @@
-const { Nota, CheckList, Tag, sequelize} = require('../models');
+const { Nota, CheckList, Tag, sequelize } = require('../models');
 const controller = {};
 
 /*controller.list = async (id = null) => {
@@ -13,7 +13,7 @@ const controller = {};
     return result;
 };*/
 
-controller.getById = async (id) => { 
+controller.getById = async (id) => {
     return await Nota.findOne({
         where: {
             id,
@@ -22,24 +22,24 @@ controller.getById = async (id) => {
             {
                 model: CheckList,
                 //as: 'checklists',
-            },   
+            },
             {
-                model: Tag,   
+                model: Tag,
                 //as: 'tags',
             },
         ]
     });
 };
 
-controller.getByUsuarioId = async (usuarioId, tagName = null) => {  
+controller.getByUsuarioId = async (usuarioId, tagName = null) => {
     let where = null;
     let required = false;
 
-     if( tagName ) {
-        where = { nome: tagName};
+    if (tagName) {
+        where = { nome: tagName };
         required = true;
-     }
-    
+    }
+
     return await Nota.findAll({
         where: {
             usuarioId
@@ -48,75 +48,86 @@ controller.getByUsuarioId = async (usuarioId, tagName = null) => {
             {
                 model: CheckList,
                 //as: 'checklists',
-            },   
+            },
             {
-                model: Tag,   
+                model: Tag,
                 where,
-                required, 
+                required,
                 //as: 'tags',
             },
         ]
     });
 };
 
-controller.save = async ({ usuarioId, titulo = null, descricao = null, checklists = [], tags = []}) => {
-   const transaction = await sequelize.transaction();
+controller.save = async ({ usuarioId, titulo = null, descricao = null, checklists = [], tags = [] }) => {
+    const transaction = await sequelize.transaction();
 
-    try{
-        const notaSalva = await Nota.create({
-            usuarioId,
-            titulo,
-            descricao,
-         }, {
-            transaction,
-         });
-
-         const checklistsSalvos = [];
-         
-         if(checklists > 0) {
-         for(const checklist of checklists) {
-             checklist = {...checklist, notaId: notaSalva.id};
-
-             const checklistSalvo = await CheckList.create(checklist, {
-                 transaction,
-             });
-
-             checklistsSalvos.push(checklistSalvo);
-         }
-        }
-         
-         const tagSalvas = [];
-        if(tags > 0) {
-         for(const tagt of tags) {
-             tag = {...tag, notaId: notaSalva.id };  
-            const tagSalva = await tag.create(tag, {
+    try {
+        let { dataValues }= await Nota.create(
+            {
+                usuarioId,
+                titulo,
+                descricao,
+            },
+            {
                 transaction,
             });
 
-            tagSalvas.push(tagSalva);  
-         }    
+            let notaSalva = dataValues;
+
+        const checklistsSalvos = [];
+
+        if (checklists.length > 0) {
+            for (let checklist of checklists) {
+                //checklist = { ...checklist, notaId: notaSalva.id };
+
+                checklist[ 'notaId'] = notaSalva.id;
+
+                const checklistSalvo = await CheckList.create(checklist, {
+                    transaction,
+                });
+
+                checklistsSalvos.push(checklistSalvo);
+            }
         }
 
-        notaSalva = { ...notaSalva, checklists: checklistsSalvos, tags: tagSalvas};
-         
-         await transaction.commit();   
-        
-         return notaSalva;
-    } catch (error){
-        await transaction.rollback();  
+        const tagSalvas = [];
+
+        if (tags.length > 0) {
+            for (let tag of tags) {
+
+                //tag = { ...tag, notaId: notaSalva.id };
+
+                tag[ 'notaId'] = notaSalva.id;
+
+                const tagSalva = await Tag.create(tag, {
+                    transaction,
+                });
+
+                tagSalvas.push(tagSalva);
+            }
+        }
+
+        notaSalva = { ...notaSalva, checklists: checklistsSalvos, tags: tagSalvas };
+
+        await transaction.commit();
+
+        return notaSalva;
+    } catch (error) {
+        await transaction.rollback();
     }
 };
 
 
-controller.edit = async (id, nota) =>{
-   return await Nota.update(nota, {
-       where: { id },
-   });
+controller.edit = async (id, nota) => {
+    return await Nota.update(nota, {
+        where: { id },
+    });
 };
 
 
-controller.remove = async (id) =>{
-    return await Nota.destroy( { where: { id } });
+controller.remove = async (id) => {
+    return await Nota.destroy({ where: { id } });
 }
 
 

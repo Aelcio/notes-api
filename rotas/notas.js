@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
     try{
         const { body } = req;
 
-        const nota =  await controllerNota.save(body);
+        let nota =  await controllerNota.save(body);
   
         res.send(nota);    
        
