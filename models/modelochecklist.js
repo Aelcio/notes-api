@@ -1,3 +1,5 @@
+const database = require(".");
+
 module.exports = (sequelize, DataTypes) => {
     const Checklist = sequelize.define (
         'checklist',
@@ -29,5 +31,14 @@ module.exports = (sequelize, DataTypes) => {
             timestamps: false
         }       
     )
+
+    //Checklist.belongsTo(Nota, { as: 'nota', foreignKey: 'notaId' });
+
+    //database = (Checklist);
+
+    Checklist.associate = function(models) {
+        this.belongsTo(models.Nota, {foreignKey: 'notaId'});
+    }
+    
     return Checklist;
 };

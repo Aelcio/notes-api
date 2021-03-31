@@ -1,3 +1,5 @@
+//const { CheckList } = require(".");
+
 module.exports = (sequelize, DataTypes) => {
     const Nota = sequelize.define(
         'nota',
@@ -34,5 +36,16 @@ module.exports = (sequelize, DataTypes) => {
             timestamps: false
         }        
     )
+
+   // Nota.hasMany(CheckList, {as: 'checklists', foreignKey: 'notaId'});
+    //Nota.hasMany(Tag, {as: 'tags', foreignKey: 'notaId'});
+    //Nota.belongsTo(Usuario, {as: 'usuario', foreignKey: 'usuarioId'});
+
+    Nota.associate = function(models) {
+        this.hasMany(models.CheckList, {foreignKey: 'notaId'}); 
+        this.hasMany(models.Tag, {foreignKey: 'notaId'});  
+        this.belongsTo(models.Usuario, {foreignkey: 'usuarioId'});    
+    }  
+    
     return Nota;
 };

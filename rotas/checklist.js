@@ -11,16 +11,16 @@ router.get('/:id?', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    try{
+    //try{
         const { body } = req;
 
         const checklist =  await controller.save(body);
   
         res.send(checklist);    
        
-    } catch (error) {
-        res.status(500).send({ error });
-    }
+    //} catch (error) {
+        //res.status(500).send({ error });
+   // }
 
 });
 

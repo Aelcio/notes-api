@@ -1,0 +1,16 @@
+{
+    "desenvolvimento" : {
+        "username": "postgres",
+        "password": "11092014",
+        "database": "notas",
+        "host": "localhost",
+        "dialect": "postgres"
+    },
+    "producao" : {
+        "username": "postgres",
+        "password": "11092014",
+        "database": "notas",
+        "host": "localhost",
+        "dialect": "postgres"
+    }
+}

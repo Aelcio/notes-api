@@ -18,9 +18,16 @@ module.exports = (sequelize ,DataTypes) => {
             }
         },
         {
-            tableName: 'tag',
+            tableName: 'tag', 
             timestamps: false
-        }
+        }  
     )
-    return Tag;
+
+    //Tag.belongsTo(Nota, { as: 'nota', foreignKey: 'notaId'});
+
+    Tag.associate = function(models) {
+        this.belongsTo(models.Nota, {foreignKey: 'notaId'});  
+    }
+    
+    return Tag; 
 };

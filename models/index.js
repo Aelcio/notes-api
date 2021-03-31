@@ -33,7 +33,9 @@ sequelize
         if(database[key].associate) database[key].associate(database);
     }
 
-    
+    //Checklist.belongsTo(Nota, { as: 'nota', foreignKey: 'notaId' });
+
+    //database = {CheckList, Nota, Tag, Usuario};
 
 database.sequelize = sequelize;
 
