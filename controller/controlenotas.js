@@ -35,13 +35,12 @@ controller.getByUsuarioId = async (usuarioId, tagName = null) => {
         include: [
             {
                 model: CheckList,
-                //as: 'checklists',
             },
             {
                 model: Tag,
                 where,
                 required,
-                //as: 'tags',
+                
             },
         ]
     });

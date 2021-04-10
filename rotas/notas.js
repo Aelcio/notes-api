@@ -53,8 +53,6 @@ router.put('/usuario/:usuarioId/:notaId/:chekclistId?', async (req, res) => {
 
 });
 
-//-------------------------------------------------------------------
-
 
 router.delete('/:id', async (req, res) => {
     try {
