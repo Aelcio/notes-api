@@ -1,6 +1,3 @@
-//const express = require('express');
-//const router = express.Router();
-
 const { Router } = require('express');
 const router = Router();
 const controller = require('../controller/controletag');
@@ -13,6 +10,7 @@ router.get('/:id?', async (req, res) => {
     res.send(tag);
 });
 
+/*
 router.post('/', async (req, res) => {
     try{
         const { body } = req;
@@ -40,11 +38,13 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
+*/
 
-        await controller.remove(id);
+router.delete('/:notaId/:id', async (req, res) => {
+    try {
+        const { notaId, id } = req.params;
+
+        await controller.remove(notaId, id);
 
         res.send(`Tag ${ id } excluída com sucesso! `)
 

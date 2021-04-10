@@ -1,18 +1,6 @@
 const { Nota, CheckList, Tag, sequelize } = require('../models');
 const controller = {};
 
-/*controller.list = async (id = null) => {
-    let result = [];
-
-    if(id) {
-        result = await Nota.findByPk(id);
-        
-    } else {
-        result = await Nota.findAll();   
-    }
-    return result;
-};*/
-
 controller.getById = async (id) => {
     return await Nota.findOne({
         where: {
@@ -63,7 +51,7 @@ controller.save = async ({ usuarioId, titulo = null, descricao = null, checklist
     const transaction = await sequelize.transaction();
 
     try {
-        let { dataValues }= await Nota.create(
+        let { dataValues } = await Nota.create(
             {
                 usuarioId,
                 titulo,
@@ -73,15 +61,14 @@ controller.save = async ({ usuarioId, titulo = null, descricao = null, checklist
                 transaction,
             });
 
-            let notaSalva = dataValues;
+        let notaSalva = dataValues;
 
         const checklistsSalvos = [];
 
         if (checklists.length > 0) {
             for (let checklist of checklists) {
-                //checklist = { ...checklist, notaId: notaSalva.id };
 
-                checklist[ 'notaId'] = notaSalva.id;
+                checklist['notaId'] = notaSalva.id;
 
                 const checklistSalvo = await CheckList.create(checklist, {
                     transaction,
@@ -96,9 +83,7 @@ controller.save = async ({ usuarioId, titulo = null, descricao = null, checklist
         if (tags.length > 0) {
             for (let tag of tags) {
 
-                //tag = { ...tag, notaId: notaSalva.id };
-
-                tag[ 'notaId'] = notaSalva.id;
+                tag['notaId'] = notaSalva.id;
 
                 const tagSalva = await Tag.create(tag, {
                     transaction,
@@ -118,14 +103,22 @@ controller.save = async ({ usuarioId, titulo = null, descricao = null, checklist
     }
 };
 
+//----------------------- Desafio PUT -------------------------------
+controller.edit = async (usuarioId, notaid, nota) => {
 
-controller.edit = async (id, nota) => {
-    return await Nota.update(nota, {
-        where: { id },
-    });
-};
+    try {
+        controller.edit = async (usuarioId, id, { titulo = null, descricao = null, notas }) => {
 
+            const notaAtu = await Nota.update({ titulo, descricao }, {
+                where: { usuarioId, id }
+            })
 
+        }
+    } catch (error) {
+        throw new (error);
+    }
+}
+//--------------------------------------------------------------------
 controller.remove = async (id) => {
     return await Nota.destroy({ where: { id } });
 }

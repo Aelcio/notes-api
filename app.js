@@ -3,12 +3,14 @@ const bodyParser = require('body-parser');
 const usuario = require('./rotas/usuario');
 const notas  = require('./rotas/notas');
 const checklist = require('./rotas/checklist');
+const login = require('./rotas/login');
+const auth = require('./middlewares/auth');
 const tag = require('./rotas/tag');
 const app = express();
 const fs = require('fs');
 const https = require('https');
 const cors = require('cors');
-const { login } = require('./controller/controleusuario');
+//const { login } = require('./controller/controleusuario');
 const port = 3000;
 const portaHttps = 443;
 
@@ -20,6 +22,7 @@ app.use(cors({
 app.use(bodyParser.json());
 
 app.use('/login', login);
+//app.use(auth);
 app.use('/usuario', usuario);
 app.use('/notas', notas);
 app.use('/checklist', checklist);

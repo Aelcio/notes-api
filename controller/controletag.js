@@ -24,8 +24,17 @@ controller.edit = async (id, tag) =>{
 };
 
 
-controller.remove = async (id) =>{
-    return await Tag.destroy( { where: { id } });
+controller.remove = async (notaId, id) =>{
+    try{
+        return await Tag.destroy( 
+            { where: { 
+                notaId,
+                id
+            } 
+        });
+    } catch(error){
+        throw new Error(error);
+    }
 }
 
 module.exports = controller;

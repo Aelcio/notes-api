@@ -4,7 +4,7 @@ const controller = {};
 controller.list = async (id = null) => {
     let result = [];
 
-    if(id) {
+    if (id) {
         result = await CheckList.findByPk(id);
     } else {
         result = await CheckList.findAll();
@@ -17,15 +17,25 @@ controller.save = async (checklist) => {
 };
 
 
-controller.edit = async (id, checklist) =>{
-   return await CheckList.update(checklist, {
-       where: { id },
-   });
+controller.edit = async (id, checklist) => {
+    return await CheckList.update(checklist, {
+        where: { id },
+    });
 };
 
 
-controller.remove = async (id) =>{
-    return await CheckList.destroy( { where: { id } });
+controller.remove = async (notaId, id) => {
+    try {
+        return await CheckList.destroy(
+            {
+                where: {
+                    notaId,
+                    id
+                }
+            });
+    } catch (error) {
+        throw new Error(error);
+    }
 }
 
 module.exports = controller;

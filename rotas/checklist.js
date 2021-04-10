@@ -10,7 +10,7 @@ router.get('/:id?', async (req, res) => {
     res.send(checklist);
 });
 
-router.post('/', async (req, res) => {
+/*router.post('/', async (req, res) => {
     //try{
         const { body } = req;
 
@@ -37,11 +37,13 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
+*/
 
-        await controller.remove(id);
+router.delete('/:notaId/:id', async (req, res) => {
+    try {
+        const { notaId, id } = req.params;
+
+        await controller.remove(notaId, id);
 
         res.send(`CheckList ${ id } excluída com sucesso! `)
 
