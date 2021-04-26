@@ -12,17 +12,17 @@ const https = require('https');
 const cors = require('cors');
 //const { login } = require('./controller/controleusuario');
 const port = 3000;
-const portaHttps = 443;
+const portaHttps = 4443;
 
 app.use(cors({
     origin: [
-        'https://localhost:8080'
+        'http://localhost:3000'
     ]
 }));
 app.use(bodyParser.json());
 
 app.use('/login', login);
-//app.use(auth);
+app.use(auth);
 app.use('/usuario', usuario);
 app.use('/notas', notas);
 app.use('/checklist', checklist);
@@ -36,10 +36,11 @@ const credentials = { key, cert};
 const httpsServer = https.createServer(credentials, app);
 
 httpsServer.listen(portaHttps, () => {
-    console.log(`Api Rodando Seguramente na porta ${ portaHttps}`);
+    console.log(`Api Rodando Seguramente na porta ${portaHttps}`);
 
 });
-app.listen(port, () => {
-    console.log(`Aplicação rodando em http://localhost:${3000}`);
-});
+//app.listen(port, () => {
+    //console.log(`Aplicação rodando em http://localhost:${3000}`);
+//}
+//);
 

@@ -7,9 +7,11 @@ const controller = require('../controller/controleusuario');
 const conectabd = require('../models/');
 
 router.get('/:id?', async (req, res) => {
-    const { id } = req.params;
+    const [type, token] = req.headers['authorization'].split(' ');
 
-    const usuarios = await controller.list(id);
+    const { id } = jwt.decode(token);
+
+    const usuarios = await controller.list(Usuario, id);
 
     res.send(usuarios);
 });
