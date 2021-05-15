@@ -1,13 +1,13 @@
 const bcrypt = require('bcrypt');
 const { saltRounds } = require('../config/security');
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
     const Usuario = sequelize.define(
         'usuario',
         {
             id: {
                 type: DataTypes.INTEGER,
-                allowNull : false,
+                allowNull: false,
                 primaryKey: true,
                 autoIncrement: true
             },
@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            avatar: { 
+            avatar: {
                 type: DataTypes.STRING,
                 allowNull: true
             }
@@ -32,11 +32,11 @@ module.exports = function(sequelize, DataTypes) {
             tableName: 'usuario',
             timestamps: false,
             hooks: {
-                beforeCreate: (usuario) => {
-                    usuario.senha = bcrypt.hashSync(usuario.senha, saltRounds);
+                beforeValidate: (usuario) => {
+                    if (usuario.senha) usuario.senha = bcrypt.hashSync(usuario.senha, saltRounds);
                 },
             },
-            defaultScope : {
+            defaultScope: {
                 atributes: {
                     exclude: ['senha'],
                 },
@@ -44,10 +44,8 @@ module.exports = function(sequelize, DataTypes) {
             scopes: {
                 login: {
                     atributes: ['id', 'senha'],
-
                 },
             },
-
         }
     );
 

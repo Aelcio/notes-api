@@ -4,6 +4,7 @@ const usuario = require('./rotas/usuario');
 const notas  = require('./rotas/notas');
 const checklist = require('./rotas/checklist');
 const login = require('./rotas/login');
+const registro = require('./rotas/registro');/*Desafio*/
 const auth = require('./middlewares/auth');
 const tag = require('./rotas/tag');
 const app = express();
@@ -20,7 +21,7 @@ app.use(cors({
     ]
 }));
 app.use(bodyParser.json());
-
+app.use('/registro', registro);/*Desafio*/
 app.use('/login', login);
 app.use(auth);
 app.use('/usuario', usuario);

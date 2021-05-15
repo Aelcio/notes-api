@@ -2,16 +2,20 @@
 //const router = express.Router();
 
 const { Router } = require('express');
-const router = Router();
-const controller = require('../controller/controleusuario');
-const conectabd = require('../models/');
+const jwt = require('jsonwebtoken');
 
-router.get('/:id?', async (req, res) => {
-    const [type, token] = req.headers['authorization'].split(' ');
+const router = Router();
+//const controller = require('../controller/controleusuario');
+const controller = require('../controller/default')
+const conectabd = require('../models/');
+const { Usuario } = require('../models')
+
+router.get('/', async (req, res) => {
+    const { token } = req;
 
     const { id } = jwt.decode(token);
 
-    const usuarios = await controller.list(Usuario, id);
+    const usuarios = await controller.getById(Usuario, id);
 
     res.send(usuarios);
 });
@@ -20,7 +24,7 @@ router.post('/', async (req, res) => {
     try{
         const { body } = req;
 
-        const usuario =  await controller.save(body);
+        const usuario =  await controller.save(Usuario, body);
   
         res.send(usuario);    
         console.log(req.body);
@@ -30,15 +34,16 @@ router.post('/', async (req, res) => {
 
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/', async (req, res) => {
     try {
-        const { body } = req;
-        const { id } = req.params;
+        const { body, token } = req;
 
-        await controller.edit(id, body);
+        const { id } = jwt.decode(token);
+        
+        const usuario = await controller.edit(Usuario, body, id);
 
-        res.send(body);
-    } catch (erro) {
+        res.send(usuario);
+    } catch (error) {
         res.status(500).send({ error });
     }
 });
