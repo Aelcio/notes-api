@@ -2,6 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const controller = require('../controller/controlenotas');
 const controllerNota = require('../controller/controlenotas');
+const jwt = require('jsonwebtoken');
 
 const { Nota } = require('../models');
 
@@ -22,17 +23,21 @@ router.get('/usuario/:usuarioId', async (req, res) => {
     res.send(notas || []);
 });
 
-router.post('/usuario/:usuarioId', async (req, res) => {
-    try {
-        const { body } = req;
+router.post('/', async (req, res) => {
+    //try {
+        let { body, token} = req;
+ 
+        const { id } = jwt.decode(token);
 
-        let nota = await controllerNota.save(body);
+        body = { ...body, usuarioId: id };
+
+        const nota = await controllerNota.save(body);
 
         res.send(nota);
 
-    } catch (error) {
-        res.status(500).send({ error });
-    }
+    //} catch (error) {
+        //res.status(500).send({ error });
+    //}
 
 
 });
