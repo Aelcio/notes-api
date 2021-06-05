@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
 
             },
             concluida: {
-                type: DataTypes.BOOLEAN,
-                allowNull: true
+                type: DataTypes.INTEGER,
+                allowNull: 1
             }
         },
         {

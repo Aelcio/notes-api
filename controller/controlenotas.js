@@ -49,7 +49,7 @@ controller.getByUsuarioId = async (usuarioId, tagName = null) => {
 controller.save = async ({ usuarioId, titulo = null, descricao = null, checklists = [], tags = [] }) => {
     const transaction = await sequelize.transaction();
 
-    try {
+    //try {
         let { dataValues } = await Nota.create(
             {
                 usuarioId,
@@ -97,9 +97,9 @@ controller.save = async ({ usuarioId, titulo = null, descricao = null, checklist
         await transaction.commit();
 
         return notaSalva;
-    } catch (error) {
-        await transaction.rollback();
-    }
+    //} catch (error) {
+        //await transaction.rollback();
+    //}
 };
 
 //----------------------- Desafio PUT -------------------------------
