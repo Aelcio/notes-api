@@ -24,7 +24,7 @@ router.get('/usuario/:usuarioId', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    //try {
+    try {
         let { body, token} = req;
  
         const { id } = jwt.decode(token);
@@ -35,28 +35,30 @@ router.post('/', async (req, res) => {
 
         res.send(nota);
 
-    //} catch (error) {
-        //res.status(500).send({ error });
-    //}
-
-
-});
-
-//----------------    Desafio PUT   --------------------------------
-router.put('/usuario/:usuarioId/:notaId/:chekclistId?', async (req, res) => {
-    try {
-        const { body } = req;
-        const { usuarioId, notaId } = req.params
-
-        let nota = await controllerNota.edit(usuarioId, notaId, body);
-        console.log(body)
-        res.send(body);
-
     } catch (error) {
         res.status(500).send({ error });
     }
 
+
 });
+
+router.put('/:id', async (req, res) => {
+    try {
+      let { body, token } = req;
+      const { id } = req.params;
+  
+      const decoded = jwt.decode(token);
+  
+      body = { ...body, usuarioId: decoded.id };
+  
+      const nota = await controllerNota.edit(body, id);
+  
+      res.send(nota);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({ error });
+    }
+  });
 
 
 router.delete('/:id', async (req, res) => {

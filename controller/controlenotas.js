@@ -151,7 +151,7 @@ controller.edit = async ({ usuarioId, titulo = null, descricao = null, checklist
             const checklistId = checklist.id;
             delete checklist.id;
   
-            await Checklist.update(checklist, {
+            await CheckList.update(checklist, {
               where: {
                 id: checklistId,
               },
